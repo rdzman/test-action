@@ -14,4 +14,4 @@ jobs:
 
     steps: 
     - uses: actions/checkout@v2
-    - uses: ./action
+    - uses: rdzman/test-action@main

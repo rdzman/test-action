@@ -1,0 +1,25 @@
+name: 'Install Octave'
+description: 'Install GNU Octave'
+runs:
+  steps:
+    - name: Initialize Package Manager (Linux)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: sudo apt-get update -qq
+    - name: Initialize Package Manager (Mac)
+      if: startsWith(matrix.os, 'macos')
+      run: brew update
+    - name: Install bash (Mac)
+      if: startsWith(matrix.os, 'macos')
+      run: brew install bash
+    - name: Install GNU Octave / IPOPT (Linux)
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo apt-get install -y -qq coinor-libipopt-dev liboctave-dev octave
+        octave-cli --no-gui --eval ver
+        echo "OCTAVE_VER=`octave-cli --no-gui --eval "fprintf('%s', ver('octave').Version)"`" >> $GITHUB_ENV
+    - name: Install GNU Octave (Mac)
+      if: startsWith(matrix.os, 'macos')
+      run: |
+        brew install octave
+        octave-cli --no-gui --eval ver
+        echo "OCTAVE_VER=`octave-cli --no-gui --eval "fprintf('%s', ver('octave').Version)"`" >> $GITHUB_ENV
